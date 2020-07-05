@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_webapp/data.dart';
 import 'package:flutter_webapp/headtitle.dart';
 import 'constants.dart';
-import 'package:flutter_webapp/login.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase/firebase.dart' as fb;
 
 class Detail extends StatefulWidget {
   Detail({Key key}) : super(key: key);
@@ -12,11 +12,22 @@ class Detail extends StatefulWidget {
 }
 
 //variable
-final formKey = GlobalKey<FormState>();
-String nameString, surNameString, passwordString;
 
 //medthod
 class _DetailState extends State<Detail> {
+  final formKey = GlobalKey<FormState>();
+  String nameString, surNameString, passwordString;
+
+  var database = fb.database();
+
+  sendData(String name, String lastname) {
+    fb.database().ref('User/' + name +' '+ lastname).set({
+      'name': '$name',
+      'lastName': '$lastname',
+    });
+    print('done');
+  }
+
   Widget textName(String name) {
     return new Container(
       padding: const EdgeInsets.all(8.0),
@@ -42,7 +53,8 @@ class _DetailState extends State<Detail> {
       ),
     );
   }
- Widget textSurname(String surname) {
+
+  Widget textSurname(String surname) {
     return new Container(
       padding: const EdgeInsets.all(8.0),
       alignment: Alignment.center,
@@ -67,6 +79,7 @@ class _DetailState extends State<Detail> {
       ),
     );
   }
+
   Widget sizebox() {
     return SizedBox(
       height: 50,
@@ -93,7 +106,7 @@ class _DetailState extends State<Detail> {
           print('Upload');
           if (formKey.currentState.validate()) {
             formKey.currentState.save();
-            print('Name = $nameString Surname = $surNameString');
+            sendData(nameString, surNameString);
           }
         },
       ),
@@ -117,22 +130,22 @@ class _DetailState extends State<Detail> {
             children: [
               Headtitle(),
               Form(
-                key: formKey,
+                  key: formKey,
                   child: Padding(
-                padding: EdgeInsets.all(30),
-                child: Container(
-                  decoration:
-                      BoxDecoration(color: Color.fromRGBO(255, 255, 255, 0.08)),
-                  child: Column(
-                    children: [
-                      textName("ชื่อ"),
-                      textSurname("นามสกุล"),
-                      sizebox(),
-                      upLoadButton(),
-                    ],
-                  ),
-                ),
-              ))
+                    padding: EdgeInsets.all(30),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(255, 255, 255, 0.08)),
+                      child: Column(
+                        children: [
+                          textName("ชื่อ"),
+                          textSurname("นามสกุล"),
+                          sizebox(),
+                          upLoadButton(),
+                        ],
+                      ),
+                    ),
+                  ))
             ],
           ),
         ),
