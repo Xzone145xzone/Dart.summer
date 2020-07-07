@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webapp/headtitle.dart';
 import 'constants.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase/firebase.dart' as fb;
+import 'package:firebase/firebase.dart';
 
 class Detail extends StatefulWidget {
   Detail({Key key}) : super(key: key);
@@ -18,14 +18,45 @@ class _DetailState extends State<Detail> {
   final formKey = GlobalKey<FormState>();
   String nameString, surNameString, passwordString;
 
-  var database = fb.database();
+  DatabaseReference ref = database().ref('User');
+
+  readMe() {
+    ref.onValue.listen((e) {
+      DataSnapshot datasnapshot = e.snapshot;
+      print(datasnapshot.val());
+    });
+  }
 
   sendData(String name, String lastname) {
-    fb.database().ref('User/' + name +' '+ lastname).set({
+    database().ref('User/' + name + ' ' + lastname).set({
       'name': '$name',
       'lastName': '$lastname',
     });
+
     print('done');
+  }
+
+  void alert(BuildContext context) {
+    var alert = AlertDialog(
+      title: Text('Success'),
+      content: Text('การลงทะเบียนของคุณเสร็จสิ้น'),
+      actions: <Widget>[
+        FlatButton(
+          child: Text("ปิด"),
+          onPressed: () {
+            var registerRoute2 =
+                MaterialPageRoute(builder: (BuildContext context) => Detail());
+            Navigator.of(context).push(registerRoute2);
+          },
+        ),
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   Widget textName(String name) {
@@ -107,6 +138,8 @@ class _DetailState extends State<Detail> {
           if (formKey.currentState.validate()) {
             formKey.currentState.save();
             sendData(nameString, surNameString);
+            readMe();
+            alert(context);
           }
         },
       ),

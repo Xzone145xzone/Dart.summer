@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webapp/detail_page.dart';
+import 'package:flutter_webapp/headtitle.dart';
 import 'package:flutter_webapp/login.dart';
 import 'constants.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -25,48 +26,10 @@ class _HomePageState extends State<HomePage> {
               stops: [0.3, 0.7]),
         ),
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      'COMPUTER\n         ENGINEER',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        fontSize: 44,
-                        color: const Color(0xffffffff),
-                        fontWeight: FontWeight.w900,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                    DropdownButton(
-                      items: [
-                        DropdownMenuItem(
-                          child: Text(
-                            'ติดต่อเรา',
-                            style: TextStyle(
-                              fontFamily: 'Avenir',
-                              fontSize: 24,
-                              color: const Color(0x7cdbf1ff),
-                              fontWeight: FontWeight.w500,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ],
-                      onChanged: (value) {},
-                      icon: Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Image.asset('assets/drop_down_icon.png'),
-                      ),
-                      underline: SizedBox(),
-                    ),
-                  ],
-                ),
-              ),
+              Headtitle(),
               Container(
                 height: 500,
                 padding: const EdgeInsets.only(left: 32),
@@ -83,10 +46,11 @@ class _HomePageState extends State<HomePage> {
                     return InkWell(
                       onTap: () {
                         print('HI');
-                                  /// Create Route
-          var registerRoute2 =
-              MaterialPageRoute(builder: (BuildContext context) => Detail());
-          Navigator.of(context).push(registerRoute2);
+
+                        /// Create Route
+                        var registerRoute2 = MaterialPageRoute(
+                            builder: (BuildContext context) => Detail());
+                        Navigator.of(context).push(registerRoute2);
                       },
                       child: Stack(
                         children: <Widget>[

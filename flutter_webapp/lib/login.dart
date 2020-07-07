@@ -11,6 +11,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+ 
   Widget signUpButton() {
     return ButtonTheme(
       minWidth: 200.0,
@@ -29,6 +30,7 @@ class _LoginState extends State<Login> {
         ),
         onPressed: () {
           print('You Click Login');
+
 
           /// Create Route
           var registerRoute =
@@ -75,7 +77,7 @@ class _LoginState extends State<Login> {
                       ),
                       Row(
                         children: [
-                          Container(    
+                          Container(
                             alignment: Alignment.center,
                             height: 50,
                             width: 300,
